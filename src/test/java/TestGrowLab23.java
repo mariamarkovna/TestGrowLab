@@ -4,7 +4,8 @@ public class TestGrowLab23 extends TestBase {
 
 
     @Test
-    public void negativTest1() throws InterruptedException {
+    public void negativTest1() throws InterruptedException {// проверка авторизации аккаунта менеджера через ошибочный email
+        // и верный пароль
 
         pause(5000);
 
@@ -22,7 +23,8 @@ public class TestGrowLab23 extends TestBase {
     }
 
     @Test
-    public void negativTest2() throws InterruptedException {
+    public void negativTest2() throws InterruptedException {// проверка авторизации аккаунта  без данных email
+        // и верный пароль
 
         pause(5000);
 
@@ -37,7 +39,8 @@ public class TestGrowLab23 extends TestBase {
     }
 
     @Test
-    public void negativTest3() throws InterruptedException {
+    public void negativTest3() throws InterruptedException {// проверка авторизации аккаунта клиента через ошибочный email
+        // и верный пароль
 
         pause(5000);
 

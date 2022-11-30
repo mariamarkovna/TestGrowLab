@@ -4,7 +4,9 @@ public class TestsAllUserAuthorization extends TestBase {
 
 
     @Test
-    public void positiveManagerTest() {
+    public void positiveManagerTest() {// проверка авторизации аккаунта менеджера через верный email
+        // и верный пароль, проверка наличия элементов, характерных для верной авторизации
+
 
         login();
 
@@ -34,7 +36,8 @@ public class TestsAllUserAuthorization extends TestBase {
     }
 
     @Test
-    public void positiveClientTest() {
+    public void positiveClientTest() {// проверка авторизации аккаунта клиента через верный email
+        // и верный пароль, проверка наличия элементов или их отсутствия характерных для верной авторизации
 
         login();
 
@@ -60,7 +63,8 @@ public class TestsAllUserAuthorization extends TestBase {
     }
 
     @Test
-    public void positiveConsultantTest() {
+    public void positiveConsultantTest() {// проверка авторизации аккаунта консультанта через верный email
+        // и верный пароль,проверка наличия элементов характерных для верной авторизации
 
         login();
 
