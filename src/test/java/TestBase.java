@@ -1,19 +1,48 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.Browser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-public class TestBase {
+public class TestBase extends DataProviders{
+
+    final static Logger logger = LoggerFactory.getLogger(TestBase.class);
     WebDriver wd;
+    String browser;
 
 
-    @BeforeTest
+
+
+    @BeforeTest(alwaysRun=true)
+
     public void prepare() {
-        wd = new FirefoxDriver();
+        logger.info("Running a test: prepare in BeforeTest");
+        String path;
+
+        browser = System.getProperty("browser"); //-Dbrowser=chrome
+        logger.info("Running test system property browser set to " + browser);
+
+        if (browser.equals(Browser.CHROME.browserName())) {
+            path = System.getenv("chromeDriver"); // chromeDriver=/Users/ilya/telran/Tools/chromedriver
+            System.setProperty("webdriver.chrome.driver", path);
+            wd = new ChromeDriver();
+        } else if (browser.equals(Browser.FIREFOX.browserName())) {
+            path = System.getenv("firefoxDriver"); // firefoxDriver=/Users/ilya/telran/Tools/geckodriver
+            System.setProperty("webdriver.gecko.driver", path);
+            wd = new FirefoxDriver();
+        }  else {
+            logger.error("No supported browser specified. Supported browsers: chrome, firefox,edge, opera");
+        }
+
+       //d = new FirefoxDriver();
         wd.get("https://derrick686.softr.app/");
         wd.manage().window().maximize();
+
 
 
     }
@@ -21,6 +50,7 @@ public class TestBase {
     @AfterTest
     public void afterTest() {
         wd.quit();
+        logger.info("Test is finnish");
     }
 
 
@@ -44,7 +74,7 @@ public class TestBase {
     }
 
 
-    public void email(String email) {
+    public void inputEmail(String email) {
         click(By.xpath("//*[@id=\"sw-form-capture-email-input\"]"));
         clear(By.xpath("//*[@id=\"sw-form-capture-email-input\"]"));
         type(By.xpath("//*[@id=\"sw-form-capture-email-input\"]"), email);
@@ -56,7 +86,13 @@ public class TestBase {
         type(By.id("sw-form-password-input"), "123456");
     }
 
-    public void signIn() {
+    public void inputPassword(String password) {
+        click(By.id("sw-form-password-input"));
+        clear(By.id("sw-form-password-input"));
+        type(By.id("sw-form-password-input"), password);
+    }
+
+    public void clickOnSignInBtn() {
         click(By.id("sw-sign-in-submit-btn"));
 
     }
@@ -69,7 +105,7 @@ public class TestBase {
         }
     }
 
-    public void logOut() {
+    public void logOutFromAccount() {
         click(By.id("navbarDropdown"));
         acceptText("Sign Out");
         click(By.cssSelector("div.show > a:nth-child(1)"));
@@ -89,6 +125,10 @@ public class TestBase {
         String source = wd.getPageSource();
         Assert.assertTrue(source.contains(alertText));
     }
+    public boolean acceptTextLog(String acceptText) {
+        String source = wd.getPageSource();
+        return source.contains(acceptText);
+        }
 
 //    public boolean isClientsComponentPresent(){
 //        try{
