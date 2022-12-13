@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.Browser;
 import org.slf4j.Logger;
@@ -8,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+
+import java.sql.Driver;
 
 public class TestBase extends DataProviders{
 
@@ -35,11 +38,19 @@ public class TestBase extends DataProviders{
             path = System.getenv("firefoxDriver"); // firefoxDriver=/Users/ilya/telran/Tools/geckodriver
             System.setProperty("webdriver.gecko.driver", path);
             wd = new FirefoxDriver();
+        } else if (browser.equals(Browser.EDGE.browserName())) {
+            path = System.getenv("edgeDriver"); // firefoxDriver=/Users/ilya/telran/Tools/geckodriver
+            System.setProperty("webdriver.msedge.driver", path);
+            wd = new EdgeDriver();
+        } else if (browser.equals(Browser.OPERA.browserName())){
+            path=System.getenv("operaDriver");
+            System.setProperty("webdriver.opera.driver",path);
+            wd = new OperaDriver();
         }  else {
-            logger.error("No supported browser specified. Supported browsers: chrome, firefox,edge, opera");
+            logger.error("No supported browser specified. Supported browsers: chrome, firefox, edge, opera");
         }
 
-       //d = new FirefoxDriver();
+        //wd = new FirefoxDriver();
         wd.get("https://derrick686.softr.app/");
         wd.manage().window().maximize();
 
